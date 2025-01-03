@@ -115,7 +115,7 @@ const GenerateIdCard = (props) => {
           IDCARDD</Box>
       </Box>
 
-      <Box sx={{ textAlign: 'center', display: "flex", justifyContent: "space-between" }}>
+      <Box sx={{ textAlign: 'center', display: "flex", gap:"20px" }}>
         <Button variant="contained" color="primary" onClick={handleGeneratePDF}>
           Generate PDF
         </Button>

@@ -54,18 +54,11 @@ const Table = ({ columns, data, enableHiding, defaultFilter, setDefaultFilter, r
         enableColumnActions: false,   // For remove column action option
         enableGlobalFilter: false,   // For remove global search option
         paginationDisplayMode: 'pages',   // For display page number in pagination
-        rowCount,   // For total count of records.
+        rowCount,  
         muiPaginationProps: {
-            shape: 'rounded',   // For page number design in pagination
-            // color: 'secondary',
+            shape: 'rounded',   
             sx: {
-                // '& .MuiPaginationItem-root': {
-                //     color: 'white', // Text color for all pagination numbers
-                //     backgroundColor: 'blue', // Background color for all pagination numbers
-                //     '&:hover': {
-                //         backgroundColor: 'lightblue', // Background color on hover
-                //     },
-                // },
+                
                 '& .Mui-selected': {
                     backgroundColor: '#1976D2', // Background color for the selected page
                     color: 'white', // Text color for the selected page

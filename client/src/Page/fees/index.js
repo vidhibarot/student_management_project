@@ -47,9 +47,6 @@ function Payment() {
 
             const order = response?.data?.data?.order;
 
-
-            console.log("tyepepep>>", typeof (order?.amount))
-
             const options = {
                 key: "rzp_test_sBhqWKhAFqYlBj",
                 amount: order?.amount,
@@ -67,7 +64,6 @@ function Payment() {
             rzp1.on('payment.success', async function (response) {
                 try {
                     const addcApiResponse = await studentfeesconfirmApi();
-                    console.log('Payment success and addcApi called:', addcApiResponse);
                 } catch (err) {
                     console.error('Error calling addcApi:', err);
                 }

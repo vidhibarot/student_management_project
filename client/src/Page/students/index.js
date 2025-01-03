@@ -8,7 +8,7 @@ import StudentForm from './form';
 import Table from "../../ui-component/table"
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { useSelector } from 'react-redux';
+
 import ImageProfile from "../../ui-component/form/ImageModel"
 import { Avatar, Badge } from '@mui/material';
 import styled from '@emotion/styled';
@@ -72,7 +72,7 @@ const Student = () => {
             });
         }
     }
-    
+
     const handleAddStudentForm = () => {
         setOpenAddForm(true);
         setIsFormOpen(true);
@@ -201,11 +201,11 @@ const Student = () => {
                 size: 150,
                 enableSorting: false,
                 Cell: ({ row }) => {
-                    const isPaid = row?.original?.fees?.length > 0; 
+                    const isPaid = row?.original?.fees?.length > 0;
 
                     return (<>
                         <FormButton
-                            label={isPaid ? 'Paid' : 'Pending'} 
+                            label={isPaid ? 'Paid' : 'Pending'}
                             size="large"
                             type="button"
                             variant="contained"
@@ -232,48 +232,25 @@ const Student = () => {
             enableHiding: false,
             Cell: ({ row }) => (
                 <>
-                    {/* {row?.original?.role_id > 1 ? */}
                     <div style={{ display: 'flex', gap: '30px', justifyContent: 'center' }}>
-                        {/* {common?.access?.write_access && ( */}
-                        {/* <FiEdit
-                                    size={22}
-                                    color='#0095DA'
-                                    style={{ cursor: 'pointer' }}
-                                    onClick={() => {
-                                        HandleEdit(row?.original?.id, employeeGetDataById, setIsFormOpen, setIsEditForm, setEditFormData)
-                                        setOpenHardwareForm(false);
-                                        setOpenHardwareLogForm(false);
-                                        setOpenEditForm(true);
-                                        setOpenAddForm(true);
-                                    }}
-                                /> */}
-                        {console.log("row?.original?.id", row?.original?.id)}
                         <FormButton
-                            label="Profile"// Button label based on fees status
+                            label="Profile"
                             size="large"
                             type="button"
                             variant="contained"
                             color="secondary"
                             onClick={() => handleNavigate(row?.original?.id)}
-                            // onClick={()=>navigate("/profile",{state:{id:row?.original?.id}})}
-
-                            // onClick={()=>navigate("/profile",{state:{id:row?.original?.id}})}
                             sx={{
                                 marginBottom: '15px',
                             }}
                         />
-                        {/* )} */}
-
-
                     </div>
-
-                    {/* } */}
                 </>
             ),
         };
 
         baseColumns.push(actionColumn);
-        
+
         return baseColumns;
 
     }, []);

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -11,33 +10,44 @@ import { useUserDispatch } from '../../redux/dispatch/userdispatch';
 import { DialogPopUpForm } from "../../ui-component/model";
 import GenerateIdCard from './generateIdcard';
 import GenerateReport from './generatereport';
+import { Avatar, Grid } from '@mui/material';
 
 const Profile = () => {
   const data = useSelector((state) => state?.user);
-  console.log("datatata>>>", data?.userLoginData);
   const userId = data?.userLoginData?.role_id == "1" ? data?.profileId : data?.userLoginData?.students?.[0]?.id;
-  const { setIsFormOpen } = useUserDispatch();
+  const { setIsFormOpen, showNotification } = useUserDispatch();
   const [openModal, setOpenModal] = useState(false);
   const [modalType, setModalType] = useState('');
   const [profileData, setProfileData] = useState();
 
   const getProfileData = async () => {
-    console.log("profile datattat???");
     let response = await getStudentById(userId);
-    console.log("response is tehrerererer>>", response?.data?.data);
-    if (response && response?.status === 200) {
-      console.log("sucessss>>",);
+    if (response && response?.status == 200) {
       setProfileData(response?.data?.data);
+      showNotification({
+        title: "Success",
+        message: response?.data?.message,
+        status: 'success',
+        isOpen: true
+      })
+    }
+    else {
+      showNotification({
+        title: "Error",
+        message: response?.data?.message,
+        status: 'error',
+        isOpen: true
+      })
     }
   }
-  console.log("profiledata>>>", profileData)
+
   useEffect(() => {
     getProfileData();
   }, [data?.profileId]);
 
   const handleForm = (type) => {
     setIsFormOpen(true);
-    setModalType(type); // Set the modal type ('idCard' or 'report')
+    setModalType(type);
     setOpenModal(true);
   }
 
@@ -46,29 +56,119 @@ const Profile = () => {
       <SideBar />
       <MainCard title="Profile">
 
-        <FormButton
-          label="Generate Id Card"
-          size="large"
-          type="button"
-          variant="contained"
-          color="secondary"
-          onClick={() => handleForm('idCard')} // Pass 'idCard' to handleForm
-          sx={{
-            marginBottom: '15px',
-          }}
-        />
-        <FormButton
-          label="View report"
-          size="large"
-          type="button"
-          variant="contained"
-          color="secondary"
-          onClick={() => handleForm('report')} // Pass 'report' to handleForm
-          sx={{
-            marginBottom: '15px',
-          }}
-        />
-        {openModal && (
+
+        {profileData &&
+          <Box
+            sx={{
+              padding: '1rem',
+              display: 'flex',
+              alignItems: 'center',
+              borderRadius: '10px',
+              boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+              marginBottom: '2rem',
+            }}
+          >
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginRight: '2rem' }}>
+              <Avatar
+                src={profileData?.image}
+                alt="photo"
+                sx={{
+                  borderRadius: '50%',
+                  border: '5px solid #ddd',
+                  width: '150px',
+                  height: '150px',
+                  marginBottom: '1rem',
+                }}
+              />
+              <Typography variant="h5" sx={{ textTransform: 'uppercase', textAlign: 'center', marginBottom: '1rem' }}>
+                {profileData?.name}
+              </Typography>
+            </Box>
+
+            <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+              <Grid container spacing={2} sx={{ marginBottom: '1rem' }}>
+                <Grid item xs={6}>
+                  <Typography variant="body2" sx={{ textTransform: 'uppercase', fontWeight: 700 }}>
+                    Roll No:
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: 'black', fontWeight: 500 }}>
+                    {profileData?.roll_no}
+                  </Typography>
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography variant="body2" sx={{ textTransform: 'uppercase', fontWeight: 700 }}>
+                    Mobile:
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: 'black', fontWeight: 500 }}>
+                    {profileData?.mobile}
+                  </Typography>
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography variant="body2" sx={{ textTransform: 'uppercase', fontWeight: 700 }}>
+                    Division:
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: 'black', fontWeight: 500, textTransform: 'lowercase' }}>
+                    {profileData?.division}
+                  </Typography>
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography variant="body2" sx={{ textTransform: 'uppercase', fontWeight: 700 }}>
+                    Department:
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: 'black', fontWeight: 500 }}>
+                    {profileData?.department?.name}
+                  </Typography>
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography variant="body2" sx={{ textTransform: 'uppercase', fontWeight: 700 }}>
+                    Fees:
+                  </Typography>
+                  <FormButton
+
+                    size="large"
+                    label={profileData?.fees?.length > 0 ? "Paid" : "Unpaid"}
+                    type="button"
+                    variant="contained"
+                    color="secondary"
+                    sx={{
+                      marginBottom: '15px',
+                      backgroundColor: `${profileData?.fees?.length > 0 ? '#3aa33ec7' : '#e55036db'}`,
+
+                      '&:hover': {
+                        backgroundColor: `${profileData?.fees?.length > 0 ? '#3aa33ec7' : '#e55036db'}`,
+                      }
+
+                    }}
+                  />
+                </Grid>
+
+              </Grid>
+
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
+                <FormButton
+                  label="Generate Id Card"
+                  size="large"
+                  type="button"
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => handleForm('idCard')}
+                  sx={{ marginBottom: '15px' }}
+                />
+                <FormButton
+                  label="View Report"
+                  size="large"
+                  type="button"
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => handleForm('report')}
+                  sx={{ marginBottom: '15px' }}
+                />
+              </Box>
+            </Box>
+          </Box>
+        }
+
+        {openModal && profileData && (
           <DialogPopUpForm
             props={{
               modelHead: `${modalType === 'idCard' ? 'Student Id Card' : 'Report'}`,

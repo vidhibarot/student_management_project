@@ -11,7 +11,6 @@ class feesModel {
 
     //for pay fees
     async payFees(userInfo, bodyData) {
-        console.log("vvvvvvvvvvvvv",)
         const { amount, studentName, email, contact } = bodyData;
         try {
             const razorpay = new Razorpay({
@@ -24,7 +23,6 @@ class feesModel {
                 currency: "INR",
                 receipt: `receipt_${Date.now()}`,
             });
-            // console.log("amounttttttt>>>", amount)
             if (!order) {
                 return ({ success: false, message: "Error creating Razorpay order" })
             }
@@ -39,7 +37,6 @@ class feesModel {
 
     //for confirm payment
     async payment(userInfo, body) {
-        console.log("gggggggggggg2222", userInfo, body)
 
         const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = body;
 

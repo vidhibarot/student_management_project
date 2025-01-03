@@ -90,7 +90,6 @@ const StudentForm = (props) => {
     }, [])
 
     const handleSubmit = async (values) => {
-        console.log("handlesubmittt")
         let formData = new FormData();
         formData.append("name", values?.name);
         formData.append("username", values?.username);
@@ -106,7 +105,6 @@ const StudentForm = (props) => {
         let response = await studentAddApi(formData);
 
         if (response && response?.status === 200) {
-            console.log("sucessss >>>")
             setIsFormOpen(false)
             props?.fetchApiFunction(props?.defaultFilter);
             showNotification({
@@ -143,8 +141,6 @@ const StudentForm = (props) => {
         }
         formik.setFieldValue('marks', updatedMarks);
     }, [formik.values.num_subjects]); 
-
-    console.log("formikkk", formik?.values)
 
     return (
         <>
